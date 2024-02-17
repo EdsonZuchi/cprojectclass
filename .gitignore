@@ -1,0 +1,6 @@
+# Arquivos temporários
+*.exe
+
+# Diretórios específicosg
+.idea/
+cmake-build-debug/
