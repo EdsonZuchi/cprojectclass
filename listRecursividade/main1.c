@@ -15,4 +15,6 @@ int main (){
     resultado = valor * fat(valor-1);
 
     printf("Resultado %f", resultado);
+
+    return 0;
 }
