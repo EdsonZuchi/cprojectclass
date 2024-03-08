@@ -90,18 +90,91 @@ int remover(TLista *list, int indice){
         if(indice == cont){
             anterior->prox = proximo->prox;
             retorno = proximo->valor;
-            proximo->valor = 0;
-            proximo->prox = NULL;
+            proximo = NULL;
             return retorno;
         }
         anterior = proximo;
     }
 
     retorno = proximo->valor;
-    proximo->valor = 0;
+    proximo = NULL;
     return retorno;
 }
 
+int tamanho(TLista *list){
+    int tamanho = 0;
+
+    if(list->inicio == NULL){
+        return -1;
+    }
+
+    TElemento *aux = malloc(sizeof (TElemento));
+    aux = list->inicio;
+    tamanho++;
+
+    while(aux->prox != NULL){
+        aux = aux->prox;
+        tamanho++;
+    }
+
+    return tamanho;
+}
+
+void destruir(TLista *list){
+
+    TElemento *aux = malloc(sizeof (TElemento)); 
+    TElemento *proximo = malloc(sizeof (TElemento)); 
+    aux = list->inicio;
+    while(aux->prox != NULL){
+        proximo = aux->prox;
+        aux = NULL;
+        aux = proximo;
+    }
+
+    list->inicio = NULL;    
+}
+
+int busca_posicao(TLista *list, int indice){
+
+    if(indice <= 0){
+        return list->inicio->valor;
+    }
+
+    TElemento *aux = malloc(sizeof (TElemento));
+    int cont = 0;
+
+    aux = list->inicio;
+    while(aux->prox != NULL){
+        aux = aux->prox;
+        cont++;
+        if(indice == cont){
+            return aux->valor;
+        }
+    }
+
+    return aux->valor;
+}
+
+int busca_valor(TLista *list, int valor){
+
+    if(list->inicio->valor == valor){
+        return 0; 
+    }
+
+    TElemento *aux = malloc(sizeof (TElemento));
+    int cont = 0;
+
+    aux = list->inicio;
+    while(aux->prox != NULL){
+        aux = aux->prox;
+        cont++;
+        if(aux->valor == valor){
+            return cont;
+        }
+    }
+
+    return -1;
+}
 
 int main () {
     TLista *list;
@@ -114,13 +187,55 @@ int main () {
     retorno = insere_no_fim(list, 9);
     retorno = insere_no_fim(list, 7);
 
-    retorno = remover(list, 0);
+    //Busca valor
+    retorno = busca_valor(list, 445);
+    if(retorno < 0){
+        printf("Nao encontrou\n");
+    }else{
+        printf("Retorno %d\n", retorno);
+    }
 
-    printf("Retorno %d", retorno);
+    retorno = busca_valor(list, 4);
+    if(retorno < 0){
+        printf("Nao encontrou\n");
+    }else{
+        printf("Retorno %d\n", retorno);
+    }
 
-    retorno = remover(list, 0);
-    printf("Retorno %d", retorno);
+    //Busca posicao
+    retorno = busca_posicao(list, 2);
+    printf("Retorno %d\n", retorno);
 
+    //Tamanho
+    retorno = tamanho(list);
+    if(retorno < 0){
+        printf("Lista nao existe\n");
+    }else{
+        printf("Tamanho %d\n", retorno);
+    }
+
+    //Remover
+    retorno = remover(list, 2);
+    printf("Removido %d\n", retorno);
+
+    //Tamanho
+    retorno = tamanho(list);
+    if(retorno < 0){
+        printf("Lista nao existe\n");
+    }else{
+        printf("Tamanho %d\n", retorno);
+    }
+
+    //Destruido
+    destruir(list);
+
+    //Tamanho
+    retorno = tamanho(list);
+    if(retorno < 0){
+        printf("Lista nao existe\n");
+    }else{
+        printf("Tamanho %d\n", retorno);
+    }
 
     return 0;
 }
